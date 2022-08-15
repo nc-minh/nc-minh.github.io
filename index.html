@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.1/mdb.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            height: 100vh;
+            color: white;
+            font-family: 'Poppins';
+        }
+        
+        .webgl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            outline: none;
+        }
+        
+        .container {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+        
+        .content {
+            display: flex;
+            gap: 5em;
+            width: 100%;
+            padding-top: 3em;
+            position: relative;
+        }
+        
+        .content:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 4.5%;
+            width: 100%;
+            border-bottom: 1px solid white;
+            transform: scaleX(1);
+            place-content: center;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            width: 50vw;
+            line-height: 97%;
+            text-align: right;
+        }
+        
+        h1,
+        p {
+            flex-basis: 0;
+            flex-grow: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        }
+        
+        p {
+            font-size: 1.3rem;
+            width: 40vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Hi, I'm<br>Nguyen Cong Minh</h1>
+            <p>Learning to share, sharing to learn</p>
+        </div>
+    </div>
+
+    <canvas class="webgl"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js" integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/CSSRulePlugin.min.js" integrity="sha512-oYnRsy+bFXYr+btXcKk2dpzfERnCUc5G4GkJ0AO/XSvomLV7Xc7tZVhTsYIz9QzOAw9qo/6qoA6JTpzaYuHUGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.1/mdb.min.js"></script>
+    <script>
+        const content = CSSRulePlugin.getRule('.content:before');
+        const h1 = document.querySelector('h1');
+        const p = document.querySelector('p');
+        const t1 = gsap.timeline();
+
+        t1.from(content, {
+            delay: 0.5,
+            duration: 3,
+            cssRule: {
+                scaleX: 0
+            }
+        });
+
+        t1.to(h1, {
+            duration: 2,
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+            y: '30px'
+        }, "-=3");
+
+        t1.to(p, {
+            duration: 4,
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+            y: '30px'
+        }, "-=2");
+    </script>
+    <!-- Three.js core -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Three.js setup -->
+    <script type="text/javascript">
+        // Texture
+        const textureLoader = new THREE.TextureLoader();
+        const normalTexture = textureLoader.load("./img/round.png");
+
+        // Canvas
+        const canvas = document.querySelector("canvas.webgl");
+
+        // Scene
+        const scene = new THREE.Scene();
+
+        // Objects
+        const geometry = new THREE.SphereBufferGeometry(3.5, 65, 65);
+
+        const particleGeometry = new THREE.BufferGeometry;
+        const particleCount = 2000;
+
+        const positionArray = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i++) {
+            positionArray[i] = (Math.random() - 0.5) * 25
+        };
+
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+
+        // Materials
+        const material = new THREE.PointsMaterial({
+            size: 0.023
+        });
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.023,
+            map: normalTexture,
+            transparent: true,
+            blending: THREE.AdditiveBlending
+        });
+
+        // Mesh
+        const shape = new THREE.Points(geometry, material);
+        const particlesMesh = new THREE.Points(particleGeometry, particlesMaterial);
+        scene.add(shape, particlesMesh);
+
+
+        // Lights
+        const pointLight = new THREE.PointLight(0xffffff, 0.1);
+        pointLight.position.x = 2;
+        pointLight.position.y = 3;
+        pointLight.position.z = 4;
+        scene.add(pointLight);
+
+        /**
+         * Sizes
+         */
+        const sizes = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+        };
+
+        window.addEventListener("resize", () => {
+            // Update sizes
+            sizes.width = window.innerWidth;
+            sizes.height = window.innerHeight;
+
+            // Update camera
+            camera.aspect = sizes.width / sizes.height;
+            camera.updateProjectionMatrix();
+
+            // Update renderer
+            renderer.setSize(sizes.width, sizes.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
+
+        /**
+         * Camera
+         */
+        // Base camera
+        const camera = new THREE.PerspectiveCamera(
+            75,
+            sizes.width / sizes.height,
+            0.1,
+            100
+        );
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 9;
+        scene.add(camera);
+
+        /**
+         * Renderer
+         */
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+        });
+        renderer.setSize(sizes.width, sizes.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(new THREE.Color('#21282a'), 1);
+
+        document.addEventListener('mousemove', animateParticles);
+        let mouseY = 0;
+        let mouseX = 0;
+
+        function animateParticles(event) {
+            mouseY = event.clientY
+            mouseX = event.clientX
+        }
+
+        /**
+         * Animate
+         */
+
+        const clock = new THREE.Clock();
+
+        const tick = () => {
+            const elapsedTime = clock.getElapsedTime();
+
+            // Update objects
+            shape.rotation.y = 0.16 * elapsedTime;
+            particlesMesh.rotation.y = 0.1
+
+            if (mouseX > 0) {
+                particlesMesh.rotation.x = -mouseY * (elapsedTime * 0.00008)
+                particlesMesh.rotation.y = mouseX * (elapsedTime * 0.00008)
+            }
+            // Update Orbital Controls
+            // controls.update()
+
+            // Render
+            renderer.render(scene, camera);
+
+            // Call tick again on the next frame
+            window.requestAnimationFrame(tick);
+        };
+
+        tick();
+    </script>
+</body>
+
+</html>
