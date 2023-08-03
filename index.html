@@ -1,78 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Single Page App</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      header {
-        background-color: #333;
-        color: #fff;
-        padding: 1rem;
-        text-align: center;
-      }
-      nav {
-        display: flex;
-        justify-content: center;
-        background-color: #555;
-        padding: 0.5rem;
-      }
-      nav a {
-        color: #fff;
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-      }
-      .content {
-        padding: 2rem;
-      }
-    </style>
+    <title>Vite + React + TS</title>
   </head>
   <body>
-    <header>
-      <h1>Single Page App</h1>
-    </header>
-    <nav>
-      <a href="/" class="nav-link">Home</a>
-      <a href="/profile" class="nav-link">Profile</a>
-    </nav>
-    <div class="content" id="content">
-      <!-- Content will be dynamically loaded here -->
-    </div>
-    <script>
-      const contentDiv = document.getElementById('content');
-
-      // Function to update content based on route
-      function navigateTo(route) {
-        fetch(route + '.html')
-          .then((response) => response.text())
-          .then((data) => {
-            contentDiv.innerHTML = data;
-          })
-          .catch((error) => {
-            console.error('Error loading content:', error);
-          });
-      }
-
-      // Handle navigation using the History API
-      function handleNavigation() {
-        const path = window.location.pathname;
-        if (path === '/') {
-          navigateTo('/home');
-        } else if (path === '/profile') {
-          navigateTo('/profile');
-        }
-      }
-
-      // Initial navigation on page load
-      handleNavigation();
-
-      // Update content when using back/forward buttons
-      window.addEventListener('popstate', handleNavigation);
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
