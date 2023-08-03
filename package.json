@@ -5,7 +5,7 @@
   "homepage": "https://nc-minh.github.io",
   "type": "module",
   "scripts": {
-    "predeploy": "tsc && vite build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "tsc && vite build",
