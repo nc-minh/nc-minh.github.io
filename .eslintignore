@@ -1,0 +1,7 @@
+node_modules
+dist
+/config
+/internals
+vite.config.ts
+commitlint.config.cjs
+commitlint.config.js

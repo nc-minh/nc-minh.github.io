@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-standard",
+    "stylelint-config-recommended"
+  ],
+  "rules": {
+    "alpha-value-notation": ["number", { "exceptProperties": ["opacity"] }],
+    "color-function-notation": "legacy",
+    "scss/double-slash-comment-empty-line-before": "never",
+    "selector-class-pattern": [
+      "^[a-z][a-zA-Z0-9]+$",
+      {
+        "message": "Expected class selector to be lowerCamelCase"
+      }
+    ]
+  }
+}
