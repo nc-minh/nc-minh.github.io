@@ -1,7 +1,7 @@
 import "./GlobalStyles.scss";
 
 interface Props {
-  children: React.ReactNode;
+  children: JSX.Element;
 }
 
 const GlobalStyles = ({ children }: Props) => {
