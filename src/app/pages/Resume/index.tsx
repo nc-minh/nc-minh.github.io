@@ -1,3 +1,3 @@
 export const ResumePage = () => {
-  return <>de</>;
+  return <>Resume</>;
 };
